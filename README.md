@@ -27,4 +27,4 @@ To update your [config.json](/FaithlifeUtils/config.json):
 
 ### Contact
 
-If you'd find an issue or have a feature idea, feel free to [reach out](dadovan@live.com) to me.
+If you'd find an issue or have a feature idea, feel free to [reach out](mailto:dadovan@live.com) to me.
