@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+        <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
+        <PackageReference Include="coverlet.collector" Version="3.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\FaithlifeUtils\FaithlifeUtils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Faithlife.NotesApi.v1, Version=0.21.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Faithlife.NotesApi.v1.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.DataTypes.Core, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.DataTypes.Generic, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Generic.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.DataTypes.Misc, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Misc.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.DigitalLibrary, Version=32.1.5.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.DigitalLibrary.ResourceDrivers, Version=32.1.5.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.ResourceDrivers.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.RichText, Version=13.1.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.RichText.dll</HintPath>
+        </Reference>
+        <Reference Include="Libronix.Utility, Version=16.2.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.Utility.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>
