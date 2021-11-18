@@ -1,5 +1,11 @@
+# Global
 bin/
 obj/
 /packages/
+# Resharper
 riderModule.iml
 /_ReSharper.Caches/
+/.idea/
+/.run/
+# Visual Studio
+/.vs/

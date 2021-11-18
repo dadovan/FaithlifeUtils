@@ -242,6 +242,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// Updates the assembly resolver for the app domain so we can load our references directly from the Faithlife folders.
     /// This assists with keeping the code working as Logos/Verbum updates.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
     internal static void AddResolver()
     {
         Log.ForContext<FaithlifeConnector>().Debug("Adding assembly resolver");
