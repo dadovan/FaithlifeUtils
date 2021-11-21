@@ -1,7 +1,7 @@
-﻿using System;
-using System.Reflection;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
+using System;
+using System.Reflection;
 
 namespace FaithlifeUtils;
 

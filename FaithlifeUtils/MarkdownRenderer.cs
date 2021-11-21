@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Faithlife.NotesApi.v1;
+﻿using Faithlife.NotesApi.v1;
 using Libronix.DataTypes;
 using Libronix.DataTypes.RichText;
 using Libronix.DigitalLibrary;
@@ -12,6 +6,12 @@ using Libronix.DigitalLibrary.RichText;
 using Libronix.RichText;
 using Libronix.Utility.Threading;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -55,6 +55,9 @@ public static class MarkdownRenderer
         foreach (var note in notes.OrderBy(n => n.Created ?? DateTime.Now.ToString(CultureInfo.InvariantCulture)))
         {
             _log.Debug($"Rendering note {note.Id}");
+            if (sb.Length > 0)
+                sb.AppendLine();
+
             var noteTitle = note.Created != null ? DateTime.Parse(note.Created).ToLongDateString() : $"Note {note.Id}";
             sb.AppendLine($"### {noteTitle}");
 
@@ -140,43 +143,43 @@ public static class MarkdownRenderer
             switch (element)
             {
                 case RichTextResourcePopupLink:
-                {
-                    while ((i < (elements.Count - 1)) && elements[i + 1] is not RichTextEndElement)
-                        i++;
-                    break;
-                }
-                case RichTextParagraph paragraph:
-                {
-                    var leftMargin = paragraph.Margin?.Left ?? 0;
-                    if (leftMargin > 0)
                     {
-                        var fontSize = paragraph.FontSize ?? 10;
-                        margin = (int) (leftMargin / fontSize) * 2;
+                        while ((i < (elements.Count - 1)) && elements[i + 1] is not RichTextEndElement)
+                            i++;
+                        break;
                     }
+                case RichTextParagraph paragraph:
+                    {
+                        var leftMargin = paragraph.Margin?.Left ?? 0;
+                        if (leftMargin > 0)
+                        {
+                            var fontSize = paragraph.FontSize ?? 10;
+                            margin = (int)(leftMargin / fontSize) * 2;
+                        }
 
-                    if (i > 0)
-                        sb.AppendLine("\\");
-                    if (margin > 0)
-                        sb.Append(_nbsp, margin);
-                    break;
-                }
+                        if (i > 0)
+                            sb.AppendLine("\\");
+                        if (margin > 0)
+                            sb.Append(_nbsp, margin);
+                        break;
+                    }
                 case RichTextRun run:
-                {
-                    var isItalic = run.FontItalic ?? false;
-                    var isBold = run.FontBold ?? false;
-                    if ((isBold || isItalic) && (sb[^1] != ' '))
-                        sb.Append(' ');
-                    if (isBold)
-                        sb.Append("**");
-                    if (isItalic)
-                        sb.Append('_');
-                    sb.Append(run.Text);
-                    if (isItalic)
-                        sb.Append("_ ");
-                    if (isBold)
-                        sb.Append("** ");
-                    break;
-                }
+                    {
+                        var isItalic = run.FontItalic ?? false;
+                        var isBold = run.FontBold ?? false;
+                        if ((isBold || isItalic) && (sb[^1] != ' '))
+                            sb.Append(' ');
+                        if (isBold)
+                            sb.Append("**");
+                        if (isItalic)
+                            sb.Append('_');
+                        sb.Append(run.Text);
+                        if (isItalic)
+                            sb.Append("_ ");
+                        if (isBold)
+                            sb.Append("** ");
+                        break;
+                    }
                 case RichTextReference reference:
                     sb.Append($"ref {reference.Reference}");
                     break;

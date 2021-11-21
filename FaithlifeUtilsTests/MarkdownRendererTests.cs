@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FaithlifeUtilsTests;
 
 [TestClass]
-public class MarkdownConverterTests
+public class MarkdownRendererTests
 {
     private static string RenderNoteTags(IReadOnlyCollection<NoteTagDto>? tags, bool trimEnd = true)
     {

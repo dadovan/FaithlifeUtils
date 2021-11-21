@@ -1,7 +1,5 @@
-using System;
-using System.IO;
-using System.Text.Json;
 using Serilog;
+using System;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -14,6 +12,7 @@ namespace FaithlifeUtils;
 // TODO: Stream Amazon highlights into Verbum as notes?
 // TODO: Some sort of tag graph view like Obsidian/Roam?
 #pragma warning restore S1135 // Track uses of "TODO" tags
+
 public class Program
 {
     protected Program() { }
@@ -32,7 +31,7 @@ public class Program
         }
     }
 
-    // Using a separate Run() method so AddResolved is invoked before we bring in the Faithlife assemblies
+    // Using a separate Run() method so FaithlifeConnector.AddResolver is invoked before we bring in the Faithlife assemblies
     private static void Run()
     {
         var config = Configuration.Load();

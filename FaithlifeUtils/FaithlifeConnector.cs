@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using Faithlife.NotesApi.v1;
+﻿using Faithlife.NotesApi.v1;
 using Libronix.DigitalLibrary;
 using Libronix.DigitalLibrary.NotesTool;
 using Libronix.DigitalLibrary.ResourceAudit;
@@ -17,6 +9,14 @@ using Libronix.DigitalLibrary.Utility.NotesTool;
 using Libronix.DigitalLibrary.WebCache;
 using Libronix.Utility.Data;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -262,7 +262,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// <exception cref="DirectoryNotFoundException"></exception>
     private static string FindRootPath()
     {
-        var localAppDataPath = Environment.ExpandEnvironmentVariables(@"%LOCALAPPDATA%");
+        var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         var verbumPath = Path.Combine(localAppDataPath, "Verbum");
         if (Directory.Exists(verbumPath))
         {
