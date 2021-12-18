@@ -158,7 +158,7 @@ public static class MarkdownRenderer
                         }
 
                         if (i > 0)
-                            sb.AppendLine("\\");
+                            sb.AppendLine("  ");
                         if (margin > 0)
                             sb.Append(_nbsp, margin);
                         break;

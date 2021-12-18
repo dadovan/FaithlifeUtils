@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Text.Json;
+using CommandLine;
+using Serilog;
 
 namespace FaithlifeUtils;
 
@@ -9,56 +10,57 @@ namespace FaithlifeUtils;
 /// </summary>
 public class Configuration
 {
-    private static readonly string ConfigFileName = "config.json";
-
-    /// <summary>
-    /// Constructs an instance of the <see cref="Configuration" /> class.
-    /// NOTE: this is an INTERNAL method intended to be used only during app init
-    /// See <see cref="Load" /> to load a populated instance.
-    /// </summary>
-    /// <param name="logosId">The LogosId (from UserManager.db) for the user to run as</param>
-    /// <param name="userFolder">The UserFolder (UserId from UserManager.db) for the user</param>
-    /// <param name="outputFolder">The output folder to write exports into</param>
-    /// <param name="notebookName">The name of the notebook to export</param>
-    /// <exception cref="ArgumentNullException">Thrown if any parameters are unexpectedly null</exception>
-    public Configuration(int logosId, string userFolder, string outputFolder, string notebookName)
-    {
-        LogosId = logosId;
-        UserFolder = userFolder ?? throw new ArgumentNullException(userFolder);
-        OutputFolder = outputFolder ?? throw new ArgumentNullException(outputFolder);
-        NotebookName = notebookName ?? throw new ArgumentNullException(notebookName);
-    }
-
     /// <summary>
     /// The LogosId (from UserManager.db) for the user to run as
     /// </summary>
-    public int LogosId { get; }
+    [Option(HelpText = "The LogosId (from UserManager.db) for the user to run as", Required = true)]
+    public int LogosId { get; set; }
 
     /// <summary>
     /// The UserFolder (UserId from UserManager.db) for the user
     /// </summary>
-    public string UserFolder { get; }
+    [Option(HelpText = "The UserFolder (UserId from UserManager.db) for the user")]
+    public string UserFolder { get; set; } = null!;
 
     /// <summary>
     /// The output folder to write exports into
     /// </summary>
-    public string OutputFolder { get; }
+    [Option(HelpText = "The output folder to write exports into", Required = true)]
+    public string OutputFolder { get; set; } = null!;
 
     /// <summary>
     /// The name of the notebook to export
     /// </summary>
-    public string NotebookName { get; }
+    [Option(HelpText = "The name of the notebook to export", Required = true)]
+    public string NotebookName { get; set; } = null!;
+
+    public static Configuration Instance { get; private set; } = null!;
 
     /// <summary>
-    /// Loads in the config values from the configuration file
+    /// Validates that the config is in a good state
     /// </summary>
-    /// <returns>A populated <see cref="Configuration" /> instance</returns>
-    /// <exception cref="ArgumentException">Thrown if deserialization fails to produce a valid instance</exception>
-    public static Configuration Load()
+    /// <exception cref="ArgumentException">Thrown if validation fails</exception>
+    /// <exception cref="ArgumentNullOrWhiteSpaceException">Thrown if validation fails</exception>
+    public void Validate()
     {
-        var config = JsonSerializer.Deserialize<Configuration>(File.ReadAllText(ConfigFileName));
-        if (config == null)
-            throw new ArgumentException($"Unable to deserialize the {ConfigFileName} file");
-        return config;
+        if (Instance != null)
+            throw new InvalidOperationException($"{nameof(Configuration)} was previously set");
+        // Technically the Option(Required=true) properties above have already been validated but we'll double-check here anyway
+        if (LogosId <= 1)
+            throw new ArgumentException("Expected a value for LogosId of > 1");
+        if (String.IsNullOrWhiteSpace(UserFolder))
+        {
+            var root = Path.Combine(FaithlifeConnector.FindRootPath(), "Data");
+            var folders = Directory.GetDirectories(root);
+            if (folders.Length != 1)
+                throw new ArgumentException($"Unable to automatically determine UserFolder.  Folders found:{Environment.NewLine}{String.Join(Environment.NewLine, folders)}");
+            UserFolder = Path.GetFileName(folders[0]);
+            Log.ForContext<Configuration>().Debug($"No {nameof(UserFolder)} supplied.  Using '{UserFolder}' from '{folders[0]}'");
+        }
+
+        ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(OutputFolder);
+        ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(NotebookName);
+
+        Instance = this;
     }
 }

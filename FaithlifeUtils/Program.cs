@@ -1,5 +1,6 @@
+﻿using System;
+using CommandLine;
 using Serilog;
-using System;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -19,11 +20,18 @@ public class Program
 
     private static void Main(string[] args)
     {
+        // Any invocation of Faithlife assemblies must happen in a method outside Main so FaithlifeConnector.AddResolver will be invoked
         FaithlifeConnector.AddResolver();
         using var log = new Logger();
         try
         {
-            Run();
+            var parser = new Parser(settings =>
+            {
+                settings.CaseSensitive = false;
+                settings.HelpWriter = Console.Error;
+            });
+
+            parser.ParseArguments<Configuration>(args).WithParsed(Run);
         }
         catch (Exception e)
         {
@@ -31,10 +39,10 @@ public class Program
         }
     }
 
-    // Using a separate Run() method so FaithlifeConnector.AddResolver is invoked before we bring in the Faithlife assemblies
-    private static void Run()
+
+    private static void Run(Configuration config)
     {
-        var config = Configuration.Load();
+        config.Validate();
         using var connector = FaithlifeConnector.Create(config.LogosId, config.UserFolder);
 
         var notebook = connector.GetNotebook(config.NotebookName);

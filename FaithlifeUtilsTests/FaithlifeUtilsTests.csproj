@@ -40,10 +40,10 @@
         <Reference Include="Libronix.DataTypes.Misc, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Misc.dll</HintPath>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary, Version=32.1.5.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.dll</HintPath>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary.ResourceDrivers, Version=32.1.5.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary.ResourceDrivers, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.ResourceDrivers.dll</HintPath>
         </Reference>
         <Reference Include="Libronix.RichText, Version=13.1.1.0, Culture=neutral, PublicKeyToken=null">

@@ -260,7 +260,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// </summary>
     /// <returns>The root path of the install</returns>
     /// <exception cref="DirectoryNotFoundException"></exception>
-    private static string FindRootPath()
+    internal static string FindRootPath()
     {
         var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         var verbumPath = Path.Combine(localAppDataPath, "Verbum");

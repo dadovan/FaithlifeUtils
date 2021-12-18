@@ -1,7 +1,8 @@
-﻿using Serilog;
-using Serilog.Events;
-using System;
+﻿using System;
+using System.IO;
 using System.Reflection;
+using Serilog;
+using Serilog.Events;
 
 namespace FaithlifeUtils;
 
@@ -16,10 +17,12 @@ public class Logger : IDisposable
     public Logger()
     {
         var template = "[{Timestamp:HH:mm:ss} {Level:u3} {SourceContext}] {Message:lj}\n{Exception}";
+        var logPath = $"{Assembly.GetExecutingAssembly().GetName().Name}.log";
+        File.Delete(logPath);
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.Console(LogEventLevel.Information, template)
-            .WriteTo.File($"{Assembly.GetExecutingAssembly().GetName().Name}.log", outputTemplate: template)
+            .WriteTo.File(logPath, outputTemplate: template)
             .CreateLogger();
         Log.Logger.ForContext<Logger>().Debug("Logger configured");
     }
