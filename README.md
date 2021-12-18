@@ -6,12 +6,17 @@ This is a quick and simple utility I wrote to export my notes from [Verbum](http
 for use in [Obsidian](https://obsidian.md/).  I've only tested this on the notes I've created so far, so I know there are likely major gaps in the
 tool's note rich text parsing.
 
+### Requirements
+
+This code requires:
+- [.NET 6](https://dotnet.microsoft.com/download) or higher and compatible development environment
+- Any installed version of Verbum or Logos (the free edition is fine)
 
 ### Running
 
 The code should be portable, though I've only tested this on my dev machine (Windows 10).
 To run:
-- Build via [Visual Studio](https://visualstudio.microsoft.com/vs/) or [JetBrain's Rider](https://www.jetbrains.com/rider/)
+- Build via [Visual Studio](https://visualstudio.microsoft.com/vs/) or [JetBrain's Rider](https://www.jetbrains.com/rider/) or `dotnet build`
 - Copy the binaries to a location of your choice
 - Run the tool (see note below for LogosID/UserFolder)
 
