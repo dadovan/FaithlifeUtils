@@ -95,6 +95,9 @@
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.Utility.SQLite.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Logos, Version=9.9.0.16, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\AppData\Local\Verbum\System\Verbum.exe</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

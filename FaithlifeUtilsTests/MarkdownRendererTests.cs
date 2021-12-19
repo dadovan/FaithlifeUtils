@@ -132,6 +132,34 @@ public class MarkdownRendererTests
     }
 
     [TestMethod]
+    public void RenderRichText_StyleSpacingTests()
+    {
+        var elements = new List<RichTextElement>
+        {
+            new RichTextParagraph { FontSize = 10 },
+            new RichTextReferenceMilestoneStart { Name = "ccc" },
+            new RichTextRun { Text = "TrailingSpace " },
+            new RichTextRun { FontItalic = true, Text = "Italic-NoSpace" },
+            new RichTextRun { FontItalic = true, Text = " Italic-LeadingSpace" },
+            new RichTextRun { FontItalic = true, Text = "Italic-TrailingSpace " },
+            new RichTextRun { FontItalic = true, Text = " Italic-Spaced " },
+            new RichTextRun { Text = " Spaced " },
+            new RichTextRun { FontBold = true, Text = "Bold-NoSpace" },
+            new RichTextRun { FontBold = true, Text = " Bold-LeadingSpace" },
+            new RichTextRun { FontBold = true, Text = "Bold-TrailingSpace " },
+            new RichTextRun { FontBold = true, Text = " Bold-Spaced " },
+            new RichTextRun { Text = " LeadingSpace" },
+            new RichTextEndElement()
+        };
+
+        var expected = @"TrailingSpace _Italic-NoSpace_ _Italic-LeadingSpace_ _Italic-TrailingSpace_ _Italic-Spaced_  Spaced **Bold-NoSpace** **Bold-LeadingSpace** **Bold-TrailingSpace** **Bold-Spaced**  LeadingSpace";
+        var actual = RenderRichText(elements.ToArray());
+        Console.WriteLine($"Expected: {expected.Replace(" ", ".")}");
+        Console.WriteLine($"Actual:   {actual.Replace(" ", ".")}");
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod]
     public void RenderTextRangeTitle_ReferenceMilestoneStart()
     {
         var newCCCReferencePoint = (int point) =>

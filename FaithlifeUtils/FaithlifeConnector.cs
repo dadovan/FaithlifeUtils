@@ -25,6 +25,9 @@ namespace FaithlifeUtils;
 
 public sealed class FaithlifeConnector : IDisposable
 {
+    private const string Verbum = "Verbum";
+    private const string Logos = "Logos";
+
     private static int _singletonCounter;
     private static readonly string RootPath = FindRootPath();
     private readonly LibraryCatalog _libraryCatalog;
@@ -34,14 +37,18 @@ public sealed class FaithlifeConnector : IDisposable
 
     private readonly Dictionary<string, Resource> _resourceCache = new();
     private readonly ResourceManager _resourceManager;
+    private readonly ResourceLists _resourceLists;
 
-    private FaithlifeConnector(ILogger log, LibraryCatalog libraryCatalog, LicenseManager licenseManager, NotesToolManager notesToolManager, ResourceManager resourceManager)
+    private bool IsVerbum => RootPath.EndsWith($"\\{Verbum}");
+
+    private FaithlifeConnector(ILogger log, LibraryCatalog libraryCatalog, LicenseManager licenseManager, NotesToolManager notesToolManager, ResourceManager resourceManager, ResourceLists resourceLists)
     {
         _log = log;
         _notesToolManager = notesToolManager;
         _libraryCatalog = libraryCatalog;
         _licenseManager = licenseManager;
         _resourceManager = resourceManager;
+        _resourceLists = resourceLists;
     }
 
     /// <summary>
@@ -137,7 +144,7 @@ public sealed class FaithlifeConnector : IDisposable
             });
 
             log.Debug($"Finished creating the core {nameof(FaithlifeConnector)} instance");
-            return new FaithlifeConnector(log, libraryCatalog, licenseManager, notesToolManager, resourceManager);
+            return new FaithlifeConnector(log, libraryCatalog, licenseManager, notesToolManager, resourceManager, resourceLists);
         }
         catch (Exception e)
         {
@@ -153,24 +160,24 @@ public sealed class FaithlifeConnector : IDisposable
     }
 
     /// <summary>
-    /// Opens the given resource with caching.
+    /// Gets the rendered reference string for the provided anchor
     /// </summary>
-    /// <param name="resourceId">The resource to open.</param>
-    /// <returns>The <see cref="Resource" /></returns>
-    public Resource OpenResource(string resourceId)
+    /// <param name="anchor">The <see cref="NoteAnchorDto"/> to render</param>
+    /// <returns>The rendered reference string for the provided anchor</returns>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
+    public string GetAnchorReference(NoteAnchorDto anchor)
     {
-        ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(resourceId);
-
-        if (_resourceCache.TryGetValue(resourceId, out var resource))
-        {
-            _log.Debug($"Opening resource {resourceId} from cache");
-            return resource;
-        }
-
-        _log.Debug($"Opening uncached resource {resourceId}");
-        resource = _resourceManager.OpenResource(resourceId);
-        _resourceCache[resourceId] = resource;
-        return resource;
+        var assemblyPath = Path.Combine(RootPath, "System", (IsVerbum ? Verbum : Logos) + ".exe");
+        var assembly = Assembly.LoadFile(assemblyPath);
+        var type = assembly.GetType("LDLS4.Panels.NotesTool.NotesToolDtoMapper");
+        if (type == null)
+            return String.Empty;
+        // public static string GetRenderedReferenceForAnchor(Faithlife.NotesApi.v1.NoteAnchorDto anchor, ResourceLists resourceLists)
+        var method = type.GetMethod("GetRenderedReferenceForAnchor", BindingFlags.Static | BindingFlags.Public);
+        if (method == null)
+            return String.Empty;
+        var render = method.Invoke(null, new object[] { anchor, _resourceLists }) as string;
+        return render ?? String.Empty;
     }
 
     /// <summary>
@@ -239,6 +246,27 @@ public sealed class FaithlifeConnector : IDisposable
     }
 
     /// <summary>
+    /// Opens the given resource with caching.
+    /// </summary>
+    /// <param name="resourceId">The resource to open.</param>
+    /// <returns>The <see cref="Resource" /></returns>
+    public Resource OpenResource(string resourceId)
+    {
+        ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(resourceId);
+
+        if (_resourceCache.TryGetValue(resourceId, out var resource))
+        {
+            _log.Debug($"Opening resource {resourceId} from cache");
+            return resource;
+        }
+
+        _log.Debug($"Opening uncached resource {resourceId}");
+        resource = _resourceManager.OpenResource(resourceId);
+        _resourceCache[resourceId] = resource;
+        return resource;
+    }
+
+    /// <summary>
     /// Updates the assembly resolver for the app domain so we can load our references directly from the Faithlife folders.
     /// This assists with keeping the code working as Logos/Verbum updates.
     /// </summary>
@@ -263,14 +291,14 @@ public sealed class FaithlifeConnector : IDisposable
     internal static string FindRootPath()
     {
         var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var verbumPath = Path.Combine(localAppDataPath, "Verbum");
+        var verbumPath = Path.Combine(localAppDataPath, Verbum);
         if (Directory.Exists(verbumPath))
         {
             Log.ForContext<FaithlifeConnector>().Debug($"Root path: {verbumPath}");
             return verbumPath;
         }
 
-        var logosPath = Path.Combine(localAppDataPath, "Logos");
+        var logosPath = Path.Combine(localAppDataPath, Logos);
         if (Directory.Exists(logosPath))
         {
             Log.ForContext<FaithlifeConnector>().Debug($"Root path: {logosPath}");

@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Libronix.Globalization;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -93,7 +94,8 @@ public static class MarkdownRenderer
 
         if (anchor.Reference != null)
         {
-            sb.AppendLine($" - {DataTypeManager.Instance.LoadReference(anchor.Reference.Raw)}");
+            var reference = DataTypeManager.Instance.LoadReference(anchor.Reference.Raw).Render(Culture.Current, DataTypeRenderStyle.Long);
+            sb.AppendLine($" - {reference}");
         }
         else if (anchor.TextRange != null)
         {
@@ -136,10 +138,17 @@ public static class MarkdownRenderer
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(elements);
 
+        var skipToEndElement = false;
         var margin = 0;
         for (var i = 0; i < elements.Count; i++)
         {
             var element = elements[i];
+            if (skipToEndElement)
+            {
+                if (element is RichTextEndElement)
+                    skipToEndElement = false;
+                continue;
+            }
             switch (element)
             {
                 case RichTextResourcePopupLink:
@@ -165,15 +174,29 @@ public static class MarkdownRenderer
                     }
                 case RichTextRun run:
                     {
-                        var isItalic = run.FontItalic ?? false;
                         var isBold = run.FontBold ?? false;
-                        if ((isBold || isItalic) && (sb[^1] != ' '))
+                        var isItalic = run.FontItalic ?? false;
+                        if (!isBold && !isItalic)
+                        {
+                            sb.Append(run.Text);
+                            break;
+                        }
+
+                        var text = run.Text;
+                        if (text.Length < 1)
+                            break;
+                        var startsWithWhitespace = Char.IsWhiteSpace(text[0]);
+                        var endsWithWhitespace = Char.IsWhiteSpace(text[^1]);
+                        if (startsWithWhitespace || endsWithWhitespace)
+                            text = text.Trim();
+                        if (sb[^1] != ' ')
                             sb.Append(' ');
+
                         if (isBold)
                             sb.Append("**");
                         if (isItalic)
                             sb.Append('_');
-                        sb.Append(run.Text);
+                        sb.Append(text);
                         if (isItalic)
                             sb.Append("_ ");
                         if (isBold)
@@ -181,7 +204,8 @@ public static class MarkdownRenderer
                         break;
                     }
                 case RichTextReference reference:
-                    sb.Append($"ref {reference.Reference}");
+                    sb.Append($" **{reference.Reference}** ");
+                    skipToEndElement = true;
                     break;
             }
         }

@@ -39,7 +39,6 @@ public class Program
         }
     }
 
-
     private static void Run(Configuration config)
     {
         config.Validate();
