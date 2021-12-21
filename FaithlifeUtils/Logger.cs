@@ -7,12 +7,12 @@ using Serilog.Events;
 namespace FaithlifeUtils;
 
 /// <summary>
-/// A wrapper class for <see cref="Log" /> for configuration and resource management.
+/// A wrapper class for <see cref="Log"/> for configuration and resource management.
 /// </summary>
-public class Logger : IDisposable
+public sealed class Logger : IDisposable
 {
     /// <summary>
-    /// Configures <see cref="Log" />'s logging
+    /// Configures <see cref="Log"/>'s logging
     /// </summary>
     public Logger()
     {

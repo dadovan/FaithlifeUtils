@@ -18,13 +18,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.8.0" />
-        <PackageReference Include="DotNetZip" Version="1.16.0" />
-        <PackageReference Include="Serilog" Version="2.10.0" />
-        <PackageReference Include="Serilog.Expressions" Version="3.2.1" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-        <PackageReference Include="System.Security.Permissions" Version="5.0.0" />
+        <PackageReference Include="CommandLineParser" Version="2.8.0"/>
+        <PackageReference Include="DotNetZip" Version="1.16.0"/>
+        <PackageReference Include="Serilog" Version="2.10.0"/>
+        <PackageReference Include="Serilog.Expressions" Version="3.2.1"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+        <PackageReference Include="System.Security.Permissions" Version="5.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -57,7 +57,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="Libronix.DataTypes.Generic">
-          <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Generic.dll</HintPath>
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Generic.dll</HintPath>
         </Reference>
         <Reference Include="Libronix.DigitalLibrary, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.dll</HintPath>
@@ -96,7 +96,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="Logos, Version=9.9.0.16, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\AppData\Local\Verbum\System\Verbum.exe</HintPath>
+            <HintPath>..\..\..\AppData\Local\Verbum\System\Verbum.exe</HintPath>
         </Reference>
     </ItemGroup>
 

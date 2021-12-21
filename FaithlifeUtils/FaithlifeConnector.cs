@@ -1,4 +1,13 @@
-﻿using Faithlife.NotesApi.v1;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using Faithlife.NotesApi.v1;
 using Libronix.DigitalLibrary;
 using Libronix.DigitalLibrary.NotesTool;
 using Libronix.DigitalLibrary.ResourceAudit;
@@ -9,14 +18,6 @@ using Libronix.DigitalLibrary.Utility.NotesTool;
 using Libronix.DigitalLibrary.WebCache;
 using Libronix.Utility.Data;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
 
 // Disable warnings when passing interpolated strings to Serilog
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
@@ -36,12 +37,11 @@ public sealed class FaithlifeConnector : IDisposable
     private readonly NotesToolManager _notesToolManager;
 
     private readonly Dictionary<string, Resource> _resourceCache = new();
-    private readonly ResourceManager _resourceManager;
     private readonly ResourceLists _resourceLists;
+    private readonly ResourceManager _resourceManager;
 
-    private bool IsVerbum => RootPath.EndsWith($"\\{Verbum}");
-
-    private FaithlifeConnector(ILogger log, LibraryCatalog libraryCatalog, LicenseManager licenseManager, NotesToolManager notesToolManager, ResourceManager resourceManager, ResourceLists resourceLists)
+    private FaithlifeConnector(ILogger log, LibraryCatalog libraryCatalog, LicenseManager licenseManager, NotesToolManager notesToolManager, ResourceManager resourceManager,
+        ResourceLists resourceLists)
     {
         _log = log;
         _notesToolManager = notesToolManager;
@@ -50,6 +50,8 @@ public sealed class FaithlifeConnector : IDisposable
         _resourceManager = resourceManager;
         _resourceLists = resourceLists;
     }
+
+    private static bool IsVerbum => RootPath.EndsWith($"\\{Verbum}");
 
     /// <summary>
     /// Disposes of all resources allocated by this instance
@@ -66,11 +68,11 @@ public sealed class FaithlifeConnector : IDisposable
     }
 
     /// <summary>
-    /// Creates an instance of the <see cref="FaithlifeConnector" /> class
+    /// Creates an instance of the <see cref="FaithlifeConnector"/> class
     /// </summary>
     /// <param name="logosId">The LogosId for the user</param>
     /// <param name="userFolder">The folder id for the user</param>
-    /// <returns>An instance of the <see cref="FaithlifeConnector" /> class</returns>
+    /// <returns>An instance of the <see cref="FaithlifeConnector"/> class</returns>
     public static FaithlifeConnector Create(int logosId, string userFolder)
     {
         ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(userFolder);
@@ -164,7 +166,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// </summary>
     /// <param name="anchor">The <see cref="NoteAnchorDto"/> to render</param>
     /// <returns>The rendered reference string for the provided anchor</returns>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
+    [SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
     public string GetAnchorReference(NoteAnchorDto anchor)
     {
         var assemblyPath = Path.Combine(RootPath, "System", (IsVerbum ? Verbum : Logos) + ".exe");
@@ -249,7 +251,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// Opens the given resource with caching.
     /// </summary>
     /// <param name="resourceId">The resource to open.</param>
-    /// <returns>The <see cref="Resource" /></returns>
+    /// <returns>The <see cref="Resource"/></returns>
     public Resource OpenResource(string resourceId)
     {
         ArgumentNullOrWhiteSpaceException.ThrowIfNullOrWhiteSpace(resourceId);
@@ -270,7 +272,7 @@ public sealed class FaithlifeConnector : IDisposable
     /// Updates the assembly resolver for the app domain so we can load our references directly from the Faithlife folders.
     /// This assists with keeping the code working as Logos/Verbum updates.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
+    [SuppressMessage("Major Code Smell", "S3885:\"Assembly.Load\" should be used", Justification = "Definitely a code smell; judging OK in this scenario.")]
     internal static void AddResolver()
     {
         Log.ForContext<FaithlifeConnector>().Debug("Adding assembly resolver");
