@@ -152,7 +152,8 @@ public class MarkdownRendererTests
             new RichTextEndElement()
         };
 
-        var expected = @"TrailingSpace _Italic-NoSpace_ _Italic-LeadingSpace_ _Italic-TrailingSpace_ _Italic-Spaced_  Spaced **Bold-NoSpace** **Bold-LeadingSpace** **Bold-TrailingSpace** **Bold-Spaced**  LeadingSpace";
+        var expected = "TrailingSpace _Italic-NoSpace_ _Italic-LeadingSpace_ _Italic-TrailingSpace_ _Italic-Spaced_  Spaced" +
+                       " **Bold-NoSpace** **Bold-LeadingSpace** **Bold-TrailingSpace** **Bold-Spaced**  LeadingSpace";
         var actual = RenderRichText(elements.ToArray());
         Console.WriteLine($"Expected: {expected.Replace(" ", ".")}");
         Console.WriteLine($"Actual:   {actual.Replace(" ", ".")}");

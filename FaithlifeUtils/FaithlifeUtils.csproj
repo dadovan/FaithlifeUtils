@@ -44,58 +44,48 @@
             <HintPath>..\..\..\AppData\Local\Verbum\System\Faithlife.NotesApi.v1.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DataTypes, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DataTypes, Version=10.27.5.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DataTypes.Bible, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DataTypes.Bible, Version=10.27.5.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Bible.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DataTypes.Core, Version=10.27.1.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DataTypes.Core, Version=10.27.5.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Core.dll</HintPath>
-            <Private>False</Private>
         </Reference>
         <Reference Include="Libronix.DataTypes.Generic">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DataTypes.Generic.dll</HintPath>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary, Version=35.0.7.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary.Documents, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary.Documents, Version=35.0.7.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.Documents.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary.ResourceDrivers, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary.ResourceDrivers, Version=35.0.7.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.ResourceDrivers.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.DigitalLibrary.Utility, Version=32.1.8.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.DigitalLibrary.Utility, Version=35.0.7.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.DigitalLibrary.Utility.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.Globalization, Version=12.2.6.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.Globalization, Version=12.2.7.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.Globalization.dll</HintPath>
-            <Private>False</Private>
         </Reference>
         <Reference Include="Libronix.RichText, Version=13.1.1.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.RichText.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.SearchEngine, Version=11.4.2.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.SearchEngine, Version=11.4.3.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.SearchEngine.dll</HintPath>
-            <Private>False</Private>
         </Reference>
-        <Reference Include="Libronix.Utility, Version=16.2.1.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Libronix.Utility, Version=16.4.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.Utility.dll</HintPath>
-            <Private>False</Private>
         </Reference>
         <Reference Include="Libronix.Utility.SQLite, Version=11.4.2.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Libronix.Utility.SQLite.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Logos, Version=9.9.0.16, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Logos, Version=9.10.0.17, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\AppData\Local\Verbum\System\Verbum.exe</HintPath>
         </Reference>
     </ItemGroup>

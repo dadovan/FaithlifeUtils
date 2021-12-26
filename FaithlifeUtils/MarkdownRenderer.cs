@@ -36,9 +36,7 @@ public static class MarkdownRenderer
     /// <param name="notebook">The <see cref="NotebookDto"/> to save</param>
     /// <param name="outputPath">The path to save the markdown into</param>
     /// <remarks>
-    /// The file name is based on the
-    /// <param cref="notebook"/>
-    /// 's title.
+    /// The file name is based on the <paramref name="notebook"/>'s title.
     /// If the title is null, the file name is based on the <paramref name="notebook"/>'s id.
     /// If the id is null, the file name defaults to 'Unknown Notebook'
     /// </remarks>
